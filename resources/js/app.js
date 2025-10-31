@@ -1,1 +1,1 @@
-import './bootstrap';
+console.log('Vite JS ielādēts!');
