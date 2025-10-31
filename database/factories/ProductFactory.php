@@ -9,9 +9,10 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->unique()->words(3, true), // piem. "Ultra Smart Watch"
-            'description' => fake()->paragraph(2), // īss apraksts
-            'price' => fake()->randomFloat(2, 5, 500), // cenas robežās 5.00–500.00 €
+            'name' => fake()->unique()->words(3, true),
+            'description' => fake()->sentence(10),
+            'price' => fake()->randomFloat(2, 5, 500),
+            'quantity' => fake()->numberBetween(0, 100),
         ];
     }
 }
