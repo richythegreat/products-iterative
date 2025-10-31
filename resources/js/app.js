@@ -1,1 +1,1 @@
-console.log('Vite JS ielādēts!');
+console.log("Vite JS ielādēts!");

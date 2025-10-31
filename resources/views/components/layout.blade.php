@@ -11,7 +11,7 @@
 <body class="halloween-theme">
     <div class="layout-grid">
         <header>
-            <h1>🎃 Spooky Produktu Veikals</h1>
+            <h1>🎃 Produktu Veikals</h1>
         </header>
 
         <nav>
