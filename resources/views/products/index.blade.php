@@ -1,14 +1,11 @@
-@extends('layouts.app')
+<x-layout>
+    <h1 class="mb-4">Produktu saraksts</h1>
 
-@section('content')
-<div class="container">
-    <h1>Produkti</h1>
-
-    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">+ Pievienot jaunu produktu</a>
+    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">+ Jauns produkts</a>
 
     @if($products->count())
-    <table class="table table-bordered">
-        <thead>
+    <table class="table table-striped">
+        <thead class="table-dark">
             <tr>
                 <th>ID</th>
                 <th>Nosaukums</th>
@@ -23,13 +20,13 @@
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->price }} €</td>
                 <td>
-                    <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm">Skatīt</a>
-                    <a href="{{ route('products.edit', $product) }}" class="btn btn-warning btn-sm">Rediģēt</a>
+                    <a href="{{ route('products.show', $product) }}" class="btn btn-sm btn-info">Skatīt</a>
+                    <a href="{{ route('products.edit', $product) }}" class="btn btn-sm btn-warning">Rediģēt</a>
 
-                    <form action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('products.destroy', $product) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-danger btn-sm"
+                        <button class="btn btn-sm btn-danger"
                             onclick="return confirm('Vai tiešām dzēst?')">Dzēst</button>
                     </form>
                 </td>
@@ -38,7 +35,6 @@
         </tbody>
     </table>
     @else
-    <p>Nav pievienots neviens produkts.</p>
+    <p class="text-muted">Nav produktu.</p>
     @endif
-</div>
-@endsection
+</x-layout>
