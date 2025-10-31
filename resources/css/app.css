@@ -1,29 +1,19 @@
-/* ===== Flash ziņojumi ===== */
-.flash-message {
-    padding: 1rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    font-weight: bold;
-}
-
-.flash-message.success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.flash-message.error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
-
-.flash-message ul {
+/* 🎃 GLOBAL RESET */
+* {
+    box-sizing: border-box;
     margin: 0;
-    padding-left: 1.2rem;
+    padding: 0;
 }
 
-/* ===== Holy Grail izkārtojums ===== */
+body.halloween-theme {
+    font-family: "Creepster", "Segoe UI", sans-serif;
+    background-color: #1a1a1a;
+    color: #f5deb3;
+    background-image: url("https://www.transparenttextures.com/patterns/dark-mosaic.png");
+    line-height: 1.6;
+}
+
+/* === HOLY GRAIL GRID === */
 .layout-grid {
     display: grid;
     grid-template-areas:
@@ -33,57 +23,176 @@
     grid-template-columns: 220px 1fr 220px;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
+    gap: 2px;
 }
 
+/* === HEADER === */
 header {
     grid-area: header;
-    background: #222;
-    color: white;
+    background: linear-gradient(90deg, #000000, #ff6600);
+    color: #fff6e0;
     text-align: center;
-    padding: 1rem;
+    padding: 1.5rem;
+    font-size: 1.8rem;
+    text-shadow: 0 0 5px #ff6600;
+    border-bottom: 3px solid #ff8c00;
 }
 
+/* === NAVIGATION === */
 nav {
     grid-area: nav;
-    background: #f0f0f0;
-    padding: 1rem;
+    background: #2b2b2b;
+    padding: 1.5rem;
+    border-right: 2px solid #ff6600;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-main {
-    grid-area: main;
-    background: #fff;
-    padding: 1.5rem;
-}
-
-aside {
-    grid-area: aside;
-    background: #f8f8f8;
-    padding: 1rem;
-}
-
-footer {
-    grid-area: footer;
-    background: #222;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-}
-
 nav ul {
     list-style: none;
-    padding: 0;
 }
 
 nav li a {
+    color: #ffa94d;
     text-decoration: none;
-    color: #222;
     font-weight: bold;
-    transition: color 0.2s ease;
+    display: block;
+    padding: 0.4rem 0;
+    transition: all 0.3s;
 }
 
 nav li a:hover {
-    color: #007bff;
+    color: #fff;
+    text-shadow: 0 0 8px #ff6600;
+    transform: translateX(5px);
+}
+
+/* === MAIN CONTENT === */
+main {
+    grid-area: main;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-left: 2px solid #ff6600;
+    border-right: 2px solid #ff6600;
+    box-shadow: inset 0 0 15px rgba(255, 102, 0, 0.3);
+    border-radius: 8px;
+}
+
+/* === ASIDE === */
+aside {
+    grid-area: aside;
+    background: #2b2b2b;
+    padding: 1.5rem;
+    color: #ffcc80;
+    border-left: 2px solid #ff6600;
+    font-style: italic;
+}
+
+/* === FOOTER === */
+footer {
+    grid-area: footer;
+    background: linear-gradient(90deg, #ff6600, #000000);
+    color: #fff6e0;
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+    text-shadow: 0 0 6px #000;
+}
+
+/* === TABLE STYLING === */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+th, td {
+    border: 1px solid #ff6600;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+th {
+    background-color: #2b2b2b;
+    color: #ffa94d;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(255, 102, 0, 0.1);
+}
+
+/* === BUTTONS === */
+button, .btn {
+    background: #ff6600;
+    color: #1a1a1a;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+button:hover, .btn:hover {
+    background: #ff8533;
+    transform: scale(1.05);
+}
+
+/* === FLASH MESSAGES === */
+.flash-message {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.4);
+}
+
+.flash-message.success {
+    background-color: #263c1a;
+    color: #a8ff60;
+    border: 1px solid #a8ff60;
+}
+
+.flash-message.error {
+    background-color: #4a0000;
+    color: #ff9999;
+    border: 1px solid #ff3333;
+}
+
+/* === ANIMATIONS === */
+header h1 {
+    animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 0 0 5px #ff6600, 0 0 15px #ff3300, 0 0 25px #ff6600;
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .layout-grid {
+        grid-template-areas:
+            "header"
+            "nav"
+            "main"
+            "aside"
+            "footer";
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    aside {
+        text-align: center;
+    }
 }
