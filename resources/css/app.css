@@ -1,11 +1,91 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
-
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* ===== Globālie stili ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* ===== Holy Grail Layout ar CSS Grid ===== */
+.layout-grid {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "nav main aside"
+        "footer footer footer";
+    grid-template-columns: 220px 1fr 220px;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+/* ===== Sadaļu zonas ===== */
+header {
+    grid-area: header;
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+nav {
+    grid-area: nav;
+    background: #f0f0f0;
+    padding: 1rem;
+
+    /* Flexbox vertikālais izkārtojums */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+main {
+    grid-area: main;
+    background: #fff;
+    padding: 1.5rem;
+}
+
+aside {
+    grid-area: aside;
+    background: #f8f8f8;
+    padding: 1rem;
+    color: #333;
+}
+
+footer {
+    grid-area: footer;
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* ===== Navigācijas stili ===== */
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+nav li a {
+    text-decoration: none;
+    color: #222;
+    font-weight: bold;
+    padding: 0.3rem 0;
+    transition: color 0.2s ease;
+}
+
+nav li a:hover {
+    color: #007bff;
+}
+
+
+h1 {
+    color: #ff5555; /* Sarkans tests */
+}
+
+
