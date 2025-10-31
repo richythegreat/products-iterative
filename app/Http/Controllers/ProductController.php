@@ -7,20 +7,17 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // Rāda visu produktu sarakstu
     public function index()
     {
         $products = Product::all();
         return view('products.index', compact('products'));
     }
 
-    // Rāda formu jauna produkta izveidei
     public function create()
     {
         return view('products.create');
     }
 
-    // Saglabā jaunu produktu
     public function store(Request $request)
     {
         $request->validate([
@@ -31,22 +28,20 @@ class ProductController extends Controller
 
         Product::create($request->all());
 
+        // Flash ziņojums par veiksmīgu saglabāšanu
         return redirect()->route('products.index')->with('success', 'Produkts veiksmīgi pievienots!');
     }
 
-    // Rāda konkrētu produktu (ar route model binding)
     public function show(Product $product)
     {
         return view('products.show', compact('product'));
     }
 
-    // Rāda rediģēšanas formu
     public function edit(Product $product)
     {
         return view('products.edit', compact('product'));
     }
 
-    // Saglabā rediģētas izmaiņas
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -57,13 +52,15 @@ class ProductController extends Controller
 
         $product->update($request->all());
 
+        // Flash ziņojums par veiksmīgu atjaunināšanu
         return redirect()->route('products.index')->with('success', 'Produkts veiksmīgi atjaunināts!');
     }
 
-    // Dzēš produktu
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Produkts izdzēsts!');
+
+        // Flash ziņojums par dzēšanu
+        return redirect()->route('products.index')->with('success', 'Produkts dzēsts!');
     }
 }

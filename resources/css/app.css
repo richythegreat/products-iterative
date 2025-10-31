@@ -1,15 +1,29 @@
-/* ===== Globālie stili ===== */
-* {
-    box-sizing: border-box;
+/* ===== Flash ziņojumi ===== */
+.flash-message {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.flash-message ul {
     margin: 0;
-    padding: 0;
+    padding-left: 1.2rem;
 }
 
-body {
-    font-family: Arial, sans-serif;
-}
-
-/* ===== Holy Grail Layout ar CSS Grid ===== */
+/* ===== Holy Grail izkārtojums ===== */
 .layout-grid {
     display: grid;
     grid-template-areas:
@@ -21,7 +35,6 @@ body {
     min-height: 100vh;
 }
 
-/* ===== Sadaļu zonas ===== */
 header {
     grid-area: header;
     background: #222;
@@ -34,11 +47,8 @@ nav {
     grid-area: nav;
     background: #f0f0f0;
     padding: 1rem;
-
-    /* Flexbox vertikālais izkārtojums */
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     gap: 1rem;
 }
 
@@ -52,7 +62,6 @@ aside {
     grid-area: aside;
     background: #f8f8f8;
     padding: 1rem;
-    color: #333;
 }
 
 footer {
@@ -63,29 +72,18 @@ footer {
     padding: 1rem;
 }
 
-/* ===== Navigācijas stili ===== */
 nav ul {
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
+    padding: 0;
 }
 
 nav li a {
     text-decoration: none;
     color: #222;
     font-weight: bold;
-    padding: 0.3rem 0;
     transition: color 0.2s ease;
 }
 
 nav li a:hover {
     color: #007bff;
 }
-
-
-h1 {
-    color: #ff5555; /* Sarkans tests */
-}
-
-

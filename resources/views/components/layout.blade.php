@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Holy Grail Layout - Product CRUD' }}</title>
+    <title>{{ $title ?? 'Produktu CRUD' }}</title>
 
-    {{-- Pievienots CSS un JS caur Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -25,12 +24,16 @@
         </nav>
 
         <main>
+            {{-- Flash paziņojumi --}}
+            <x-flash-success />
+            <x-flash-error />
+
             {{ $slot }}
         </main>
 
         <aside>
             <h3>Reklāma</h3>
-            <p>Šeit varētu būt reklāmas laukums vai papildinformācija.</p>
+            <p>Šeit var būt reklāma vai papildinformācija.</p>
         </aside>
 
         <footer>
