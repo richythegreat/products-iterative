@@ -5,9 +5,11 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use App\Models\Product;
 use PHPUnit\Framework\Attributes\Test;
+use Illuminate\Foundation\testing\RefreshDatabase;
 
 class ProductTest extends TestCase
 {
+    use RefreshDatabase;
     #[Test]
     public function it_increases_quantity()
     {
