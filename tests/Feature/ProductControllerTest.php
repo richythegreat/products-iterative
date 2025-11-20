@@ -1,69 +1,87 @@
 <?php
 
-namespace Tests\Feature;
-
-use Tests\TestCase;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ProductControllerTest extends TestCase
-{
-    use RefreshDatabase;
+uses(RefreshDatabase::class);
 
-    /** @test */
-    public function it_shows_the_product_index_page()
-    {
-        $response = $this->get('/products');
-        $response->assertStatus(200);
-        $response->assertViewIs('products.index');
-    }
+test('index shows products', function () {
+    Product::factory()->count(3)->create();
 
-    /** @test */
-    public function it_shows_the_create_page()
-    {
-        $response = $this->get('/products/create');
-        $response->assertStatus(200);
-        $response->assertViewIs('products.create');
-    }
+    $response = $this->get('/products');
 
-    /** @test */
-    public function it_can_store_a_product()
-    {
-        $data = [
-            'name' => 'Test Product',
-            'description' => 'This is a test product',
-            'price' => 19.99,
-        ];
+    $response->assertStatus(200);
+    $response->assertViewHas('products');
+});
 
-        $response = $this->post('/products', $data);
+test('store creates a new product', function () {
+    $data = [
+        'name' => 'Test Product',
+        'description' => 'Some description',
+        'price' => 9.99,
+        'quantity' => 5,
+    ];
 
-        $response->assertRedirect('/products');
-        $this->assertDatabaseHas('products', ['name' => 'Test Product']);
-    }
+    $response = $this->post('/products', $data);
 
-    /** @test */
-    public function it_can_update_a_product()
-    {
-        $product = Product::factory()->create();
+    $response->assertRedirect('/products');
+    $this->assertDatabaseHas('products', ['name' => 'Test Product']);
+});
 
-        $response = $this->put("/products/{$product->id}", [
-            'name' => 'Updated Product',
-            'description' => 'Updated description',
-            'price' => 49.99,
-        ]);
+test('show displays a product', function () {
+    $product = Product::factory()->create();
 
-        $response->assertRedirect('/products');
-        $this->assertDatabaseHas('products', ['name' => 'Updated Product']);
-    }
+    $response = $this->get('/products/' . $product->id);
 
-    /** @test */
-    public function it_can_delete_a_product()
-    {
-        $product = Product::factory()->create();
+    $response->assertStatus(200);
+    $response->assertViewHas('product');
+});
 
-        $response = $this->delete("/products/{$product->id}");
+test('update modifies a product', function () {
+    $product = Product::factory()->create();
 
-        $response->assertRedirect('/products');
-        $this->assertDatabaseMissing('products', ['id' => $product->id]);
-    }
-}
+    $response = $this->put('/products/' . $product->id, [
+        'name' => 'Updated Name',
+        'description' => 'Updated description',
+        'price' => 15.00
+    ]);
+
+    $response->assertRedirect('/products');
+    $this->assertDatabaseHas('products', ['name' => 'Updated Name']);
+});
+
+test('destroy deletes a product', function () {
+    $product = Product::factory()->create();
+
+    $response = $this->delete('/products/' . $product->id);
+
+    $response->assertRedirect('/products');
+    $this->assertDatabaseMissing('products', ['id' => $product->id]);
+});
+
+test('increase quantity increases product quantity', function () {
+    $product = Product::factory()->create(['quantity' => 5]);
+
+    $response = $this->post('/products/' . $product->id . '/increase');
+
+    $response->assertRedirect('/products/' . $product->id);
+    $this->assertDatabaseHas('products', ['quantity' => 6]);
+});
+
+test('decrease quantity decreases product quantity', function () {
+    $product = Product::factory()->create(['quantity' => 5]);
+
+    $response = $this->post('/products/' . $product->id . '/decrease');
+
+    $response->assertRedirect('/products/' . $product->id);
+    $this->assertDatabaseHas('products', ['quantity' => 4]);
+});
+
+test('decrease quantity fails when quantity is 0', function () {
+    $product = Product::factory()->create(['quantity' => 0]);
+
+    $response = $this->post('/products/' . $product->id . '/decrease');
+
+    $response->assertRedirect('/products/' . $product->id);
+    $response->assertSessionHas('error');
+});

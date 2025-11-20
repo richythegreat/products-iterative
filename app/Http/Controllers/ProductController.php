@@ -65,18 +65,20 @@ class ProductController extends Controller
     }
     public function increaseQuantity(Product $product)
 {
-    $product->increment('quantity');
+    $product->increase();
     return redirect()->route('products.show', $product)->with('success', 'Produkta daudzums palielināts!');
 }
 
 public function decreaseQuantity(Product $product)
 {
-    if ($product->quantity > 0) {
-        $product->decrement('quantity');
-        return redirect()->route('products.show', $product)->with('success', 'Produkta daudzums samazināts!');
+    if ($product->decrease()) {
+    return redirect()->route('products.show', $product)
+        ->with('success', 'Produkta daudzums samazināts!');
     }
 
-    return redirect()->route('products.show', $product)->with('error', 'Daudzumu vairs nevar samazināt — nav atlikumu!');
+    return redirect()->route('products.show', $product)
+        ->with('error', 'Daudzumu vairs nevar samazināt — nav atlikumu!');
+
 }
 
 }
