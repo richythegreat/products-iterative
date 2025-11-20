@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -66,19 +67,75 @@ class ProductController extends Controller
     public function increaseQuantity(Product $product)
 {
     $product->increase();
-    return redirect()->route('products.show', $product)->with('success', 'Produkta daudzums palielināts!');
+    $product->save();
+
+    if (request()->ajax()) {
+        return response()->json([
+            'success' => true,
+            'quantity' => $product->quantity,
+        ]);
+    }
+
+    return back()->with('success', 'Produkta daudzums palielināts!');
 }
 
 public function decreaseQuantity(Product $product)
 {
-    if ($product->decrease()) {
-    return redirect()->route('products.show', $product)
-        ->with('success', 'Produkta daudzums samazināts!');
+    $ok = $product->decrease();
+
+    if ($ok) {
+        $product->save();
     }
 
-    return redirect()->route('products.show', $product)
-        ->with('error', 'Daudzumu vairs nevar samazināt — nav atlikumu!');
+    if (request()->ajax()) {
+        return response()->json([
+            'success' => $ok,
+            'quantity' => $product->quantity,
+        ]);
+    }
 
+    return back()->with(
+        $ok ? 'success' : 'error',
+        $ok ? 'Produkta daudzums samazināts!' : 'Daudzumu vairs nevar samazināt — nav atlikumu!'
+    );
 }
+public function addTag(Request $request, Product $product)
+{
+    $request->validate([
+        'tag' => 'required|string|max:255'
+    ]);
+
+    $tag = Tag::firstOrCreate([
+        'name' => strtolower($request->tag)
+    ]);
+
+    $product->tags()->syncWithoutDetaching([$tag->id]);
+
+    return back()->with('success', 'Birka pievienota!');
+}
+public function searchTags(Request $request)
+{
+    $tags = Tag::where('name', 'like', '%' . $request->q . '%')
+                ->take(10)
+                ->get();
+
+    return response()->json($tags);
+}
+public function updateTags(Request $request, Product $product)
+{
+    $tagNames = $request->tags; // array of tag strings
+
+    // Convert names → Tag IDs (create missing tags)
+    $tagIds = collect($tagNames)->map(function ($name) {
+        return Tag::firstOrCreate(['name' => strtolower($name)])->id;
+    });
+
+    // Sync final tag IDs
+    $product->tags()->sync($tagIds);
+
+    return back()->with('success', 'Birkas atjauninātas!');
+}
+
+
 
 }
